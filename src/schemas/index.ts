@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { BadRequest } from "../libs/exception";
 
 export class Schema {
     parse(data: any) {
@@ -34,7 +35,7 @@ class Field {
         this.require = require;
         this.default = _default;
     }
-    validate(key: string, value: string): Array<string> {
+    validate(key: string, value: any): Array<string> {
         throw new Error("Inerface not implement");
     }
 }
@@ -45,7 +46,7 @@ export class StringField extends Field {
         super(require, _default);
         this.max_length = max_length;
     }
-    validate(key: string, value: string): Array<string> {
+    validate(key: string, value: any): Array<string> {
         const errs = [] as any;
         if (this.default) {
             return errs;
@@ -58,6 +59,49 @@ export class StringField extends Field {
         if (this.max_length && value) {
             if (value.length > this.max_length) {
                 errs.push("maximum length must < " + this.max_length);
+            }
+        }
+        return errs;
+    }
+}
+
+export class IntegerField extends Field {
+    min?: number;
+    max?: number;
+    constructor(require: boolean, _default?: any, min?: number, max?: number) {
+        super(require, _default);
+        if (min && max)
+            if (min > max) {
+                throw new BadRequest("", ["min must smaller max"])
+            }
+        this.min = min;
+        this.max = max;
+    }
+
+    validate(key: string, value: any): Array<string>{
+        const errs = [] as string []
+        const int_value = parseInt(value)
+        if(this.default){
+            return errs
+        }
+        if(isNaN(int_value)){
+            errs.push(`${key} must integer`)
+            return errs
+        }        
+
+        if(this.require){
+            if (!int_value){
+                errs.push(`${key} is required`)
+            }
+        }
+        if(this.min){
+            if (this.min>int_value){
+                errs.push(`${key} must > ${this.min}`)
+            }
+        }
+        if(this.max){
+            if(this.max < int_value){
+                errs.push(`${key} must < ${this.max}`)
             }
         }
         return errs;
