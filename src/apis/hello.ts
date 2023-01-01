@@ -9,7 +9,7 @@ export class Hello {
     }
 
     @Http("get", HelloSchema, false, "/hello")
-    hello(data:any){
+    hello(data:any, user:any){
         return data
     }
 

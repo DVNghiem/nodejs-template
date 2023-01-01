@@ -68,9 +68,9 @@ class Server {
         login_required: boolean
     ) {
         // check data here
-        const query = request.query
+        if(!schema) return {}
         const validator = new schema() as Schema
-        const data = validator.parse(query)
+        const data = validator.parse(request.method === "get"?request.query:request.body)
         if (data instanceof Array){
             throw new BadRequest("", data)
         }
