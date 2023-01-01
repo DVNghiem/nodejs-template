@@ -8,7 +8,7 @@ export class Schema {
         const props_name = Object.getOwnPropertyNames(this);
         for (const prop of props_name) {
             const checker = eval(`this.${prop}`) as Field;
-            const err = checker.validate(prop, data[prop]);
+            const err = checker.validate(prop, _.get(data, prop, null));
             if (err.length > 0) {
                 errs.push({ [prop]: err });
             } else {

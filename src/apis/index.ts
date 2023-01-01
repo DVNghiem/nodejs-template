@@ -1,8 +1,8 @@
-import { Hello } from "./hello";
+import { User } from "./user";
 const resources = [
     {
-        path: "/v1",
-        api: new Hello(""),
+        path: "/user",
+        api: new User(),
     },
 ];
 

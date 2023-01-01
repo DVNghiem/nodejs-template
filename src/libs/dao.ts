@@ -3,11 +3,11 @@ import { Model } from "mongoose";
 
 export class DAOModel {
     redis: Redis;
-    collecttion: Model<any>;
+    collection: Model<any>;
     coll_name: string;
     constructor(redis: Redis, collection: Model<any>, coll_name: string) {
         this.redis = redis;
-        this.collecttion = collection;
+        this.collection = collection;
         this.coll_name = coll_name;
     }
 
@@ -30,9 +30,4 @@ export class DAOModel {
         this.redis.set(_key, JSON.stringify(value));
     }
 
-    findOne = () => this.collecttion.findOne;
-    findById = () => this.collecttion.findById;
-    find = () => this.collecttion.find;
-    updateOne = () => this.collecttion.updateOne;
-    updateMany = () => this.collecttion.updateMany;
 }

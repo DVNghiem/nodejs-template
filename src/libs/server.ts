@@ -8,6 +8,8 @@ import resources from "../apis";
 import { Schema } from "../schemas";
 import { RouteDefinition } from "./security";
 import {BadRequest} from './exception'
+import cors from "cors";
+import morgan from "morgan";
 
 const format_res = (_target: any, _name: any, descriptor: any) => {
     const fn = descriptor.value
@@ -33,8 +35,7 @@ const format_res = (_target: any, _name: any, descriptor: any) => {
                 func,
                 schema,
                 login_required)
-
-            _res.data = func(data)
+            _res.data = await func(data, null)
         } catch (error:any) {
             _res.msg = error.message           
             _res.errors = error.errors
@@ -45,32 +46,31 @@ const format_res = (_target: any, _name: any, descriptor: any) => {
 };
 
 class Server {
-    private readonly app: Express;
+    private app: Express;
     constructor() {
         this.app = express();
+        this.app.use(morgan("dev"));
+        this.app.use(cors());
+        this.app.use(express.json());
         this.init_route();
     }
     run(port: number) {
         this.app.listen(port);
     }
 
-    use(config: any) {
-        this.app.use(config);
-    }
-
     @format_res
     private validate_data(
         request: Request,
-        response: Response,
-        next: NextFunction,
-        func: CallableFunction,
+        _response: Response,
+        _next: NextFunction,
+        _func: CallableFunction,
         schema: any,
-        login_required: boolean
+        _login_required: boolean
     ) {
         // check data here
         if(!schema) return {}
         const validator = new schema() as Schema
-        const data = validator.parse(request.method === "get"?request.query:request.body)
+        const data = validator.parse(request.method.toLocaleLowerCase() === "get"?request.query:request.body)
         if (data instanceof Array){
             throw new BadRequest("", data)
         }
@@ -79,8 +79,7 @@ class Server {
 
     private init_route() {
         resources.forEach((item: any) => {
-            const { api } = item;
-            const basePath: string = api.base_url;
+            const { path, api } = item;
             const routers: RouteDefinition[] = Reflect.getMetadata(
                 "routes",
                 api.constructor
@@ -104,7 +103,7 @@ class Server {
                         )
                 );
             });
-            this.app.use(basePath, exRouter);
+            this.app.use(path, exRouter);
         });
     }
 }
