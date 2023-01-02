@@ -25,9 +25,13 @@ export class DAOModel {
         return value ? JSON.parse(value) : {};
     }
 
-    save_to_cache(filters: any, value: any) {
+    save_to_cache(filters: any, value: any, ttl: number) {
         const _key = this.key(filters);
-        this.redis.set(_key, JSON.stringify(value));
+
+        if(ttl===-1)
+            this.redis.set(_key, value);
+        else
+            this.redis.setex(_key, ttl, value)
     }
 
 }
