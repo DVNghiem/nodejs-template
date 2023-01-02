@@ -36,7 +36,7 @@ class Field {
         this.default = _default;
     }
     validate(key: string, value: any): Array<string> {
-        throw new Error("Inerface not implement");
+        throw new Error("Interface not implement");
     }
 }
 
@@ -72,36 +72,56 @@ export class IntegerField extends Field {
         super(require, _default);
         if (min && max)
             if (min > max) {
-                throw new BadRequest("", ["min must smaller max"])
+                throw new BadRequest("", ["min must smaller max"]);
             }
         this.min = min;
         this.max = max;
     }
 
-    validate(key: string, value: any): Array<string>{
-        const errs = [] as string []
-        const int_value = parseInt(value)
-        if(this.default){
-            return errs
+    validate(key: string, value: any): Array<string> {
+        const errs = [] as string[];
+        const int_value = parseInt(value);
+        if (this.default) {
+            return errs;
         }
-        if(isNaN(int_value)){
-            errs.push(`${key} must integer`)
-            return errs
-        }        
+        if (isNaN(int_value)) {
+            errs.push(`${key} must integer`);
+            return errs;
+        }
 
-        if(this.require){
-            if (!int_value){
-                errs.push(`${key} is required`)
+        if (this.require) {
+            if (!int_value) {
+                errs.push(`${key} is required`);
             }
         }
-        if(this.min){
-            if (this.min>int_value){
-                errs.push(`${key} must > ${this.min}`)
+        if (this.min) {
+            if (this.min > int_value) {
+                errs.push(`${key} must > ${this.min}`);
             }
         }
-        if(this.max){
-            if(this.max < int_value){
-                errs.push(`${key} must < ${this.max}`)
+        if (this.max) {
+            if (this.max < int_value) {
+                errs.push(`${key} must < ${this.max}`);
+            }
+        }
+        return errs;
+    }
+}
+
+export class EmailField extends Field {
+    constructor(require: boolean, _default?: any) {
+        super(require, _default);
+    }
+
+    validate(key: string, value: any): Array<string> {
+        const errs = [] as string[];
+        if (this.default) return errs;
+        if (this.require) {
+            if (!value) {
+                errs.push(`${key} is required`);
+            }
+            else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+                errs.push("email invalid")
             }
         }
         return errs;
