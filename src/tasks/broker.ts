@@ -7,7 +7,7 @@ class MessageBroker {
     constructor() {}
     async initial() {
         this.connection = await apmq.connect(
-            process.env.RABBITMQ_URL || "amqp://localhost:5672"
+            process.env.RABBITMQ_URL || "amqp://username:password@msg-broker:5672"
         );
         this.channel = await this.connection.createChannel();
         return this;

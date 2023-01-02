@@ -6,11 +6,15 @@ services:
     container_name: redis
     ports:
       - 6379:6379
+    expose:
+      - 6379
   database:
     image: mongo:latest
     container_name: db-mongo
     ports:
       - 27017:27017
+    expose:
+      - 27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=username
       - MONGO_INITDB_ROOT_PASSWORD=password
@@ -20,6 +24,21 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    expose:
+      - 5672
+      - 15672
     environment:
       - RABBITMQ_DEFAULT_USER=username
       - RABBITMQ_DEFAULT_PASS=password
+
+  node:
+    build: .
+    container_name: node-backend
+    ports:
+      - 5000:5000
+    command: sh -c wait-for-it.sh rabbitmq:5672 --timeout=30 -- pm2-runtime start build/index.js
+    depends_on:
+      - redis
+      - database
+      - broker
+        

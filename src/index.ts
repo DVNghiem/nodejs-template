@@ -4,7 +4,7 @@ dotenv.config();
 import mongoose, { connect } from "mongoose";
 mongoose.set('strictQuery', true)
 connect(
-    process.env.MONGO_URI || "mongodb://username:password@localhost:27017"
+    process.env.MONGO_URI || "mongodb://username:password@db-mongo:27017"
 ).then(() => console.log("db connected"));
 
 
