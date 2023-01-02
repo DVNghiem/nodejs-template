@@ -13,4 +13,9 @@ export class User {
     async login(data:any, user:any){
        return await user_helper.login(data)
     }
+
+    @Http("get", null, true, "/get-user-info")
+    async get_user_info(data:any, user:any){
+        return user
+    }
 }
