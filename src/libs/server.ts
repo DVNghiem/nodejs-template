@@ -12,6 +12,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { user_model } from "../models";
 import { verify } from "jsonwebtoken";
+import logger from "../logs";
 
 const format_res = (_target: any, _name: any, descriptor: any) => {
     const fn = descriptor.value
@@ -42,6 +43,7 @@ const format_res = (_target: any, _name: any, descriptor: any) => {
             _res.msg = error.message           
             _res.errors = error.errors
             status = error.status
+            logger.error(error.toString())
         }    
         return response.status(status).json(_res);
     };
