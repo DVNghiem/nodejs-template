@@ -27,18 +27,25 @@ services:
     expose:
       - 5672
       - 15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
     environment:
       - RABBITMQ_DEFAULT_USER=username
       - RABBITMQ_DEFAULT_PASS=password
+    depends_on:
+      - database
+      - redis
 
   node:
     build: .
     container_name: node-backend
     ports:
       - 5000:5000
-    command: sh -c wait-for-it.sh rabbitmq:5672 --timeout=30 -- pm2-runtime start build/index.js
+    command: pm2-runtime start build/index.js
     depends_on:
-      - redis
-      - database
-      - broker
+      broker:
+        condition: service_healthy
         
