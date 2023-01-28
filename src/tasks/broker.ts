@@ -25,7 +25,16 @@ class MessageBroker {
         });
     }
 
-    async subscribe(queue: string, handler: CallableFunction) {
+    async consummer(events: Array<{queue:string, handler: CallableFunction}>){
+        if (!this.connection) {
+            await this.initial();
+        }
+        for(const item of events){
+            await this.subscribe(item.queue, item.handler)
+        }
+    }
+
+    private async subscribe(queue: string, handler: CallableFunction) {
         if (!this.connection) {
             await this.initial();
         }

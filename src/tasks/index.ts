@@ -1,4 +1,10 @@
 import msgBroker from "./broker"
-import HelloTask from "./user"
-msgBroker.subscribe('register', HelloTask.register)
-export default msgBroker
+import UserTask from "./user"
+msgBroker.consummer(
+    [
+        {
+            queue: "register",
+            handler: UserTask.register
+        },
+    ]
+)
