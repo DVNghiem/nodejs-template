@@ -89,6 +89,10 @@ class Server {
                         throw new Forbidden("authenication fail", [error.message])
                     }
                 }
+            }else{
+                throw new Forbidden("authenication fail", [
+                    "login is required",
+                ]);
             }
         }
         // check data here
