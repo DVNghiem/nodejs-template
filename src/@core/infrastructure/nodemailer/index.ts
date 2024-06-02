@@ -41,7 +41,7 @@ export default class Nodemailer {
 				headers: Lodash.merge(headers, { 'x-from': 'subscription-manager' }),
 				text,
 			});
-		} catch (e:any) {
+		} catch (e: any) {
 			throw new Error(`Send mail error: ${e.message}`);
 		}
 	}
@@ -57,7 +57,7 @@ export default class Nodemailer {
 				headers: Lodash.merge(headers, { 'x-from': 'subscription-manager' }),
 				html,
 			});
-		} catch (e:any) {
+		} catch (e: any) {
 			throw new Error(`Send mail error: ${e.message}`);
 		}
 	}

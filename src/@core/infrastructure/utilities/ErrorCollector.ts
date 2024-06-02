@@ -27,7 +27,7 @@ export default class ErrorCollector {
 	public async collectAsync(tag: string, method: Function): Promise<any> {
 		try {
 			return await method();
-		} catch (error : any) {
+		} catch (error: any) {
 			this._errors[tag] = error.message;
 		}
 	}

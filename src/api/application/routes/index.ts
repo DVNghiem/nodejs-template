@@ -4,7 +4,6 @@ import userController from '../controllers/UserController';
 
 const router = Router();
 
-
 router.post('/callback', transactionController.saveTransaction);
 router.get('/get', transactionController.getTransaction);
 

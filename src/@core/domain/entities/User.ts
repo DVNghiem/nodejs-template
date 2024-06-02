@@ -1,19 +1,17 @@
-import { ChildEntity, Column } from "typeorm";
-import BaseEntity from "./Entity";
+import { Column, Entity } from 'typeorm';
+import IEntity from './Entity';
 
+@Entity()
+export default class User extends IEntity {
+	@Column()
+	name: string;
 
-@ChildEntity()
-export default class User extends BaseEntity {
-    @Column()
-    name: string;
+	@Column()
+	email: string;
 
-    @Column()
-    email: string;
+	@Column()
+	password: string;
 
-    @Column()
-    password: string;
-
-    @Column()
-    role: string;
+	@Column()
+	role: string;
 }
-

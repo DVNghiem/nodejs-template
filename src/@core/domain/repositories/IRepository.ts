@@ -3,7 +3,6 @@ import { DeleteResult, QueryBuilder } from 'typeorm';
 import BaseEntity from '../entities/Entity';
 
 export default interface IRepository<T extends BaseEntity> {
-
 	initQuery(): QueryBuilder<T>;
 
 	index(): Promise<T[]>;
@@ -18,5 +17,3 @@ export default interface IRepository<T extends BaseEntity> {
 
 	delete(id: EntityId): Promise<DeleteResult>;
 }
-
-

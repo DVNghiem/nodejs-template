@@ -12,11 +12,10 @@ interface ValidatedInput {
 
 @injectable()
 export default class SaveTransaction extends RequestHandler {
-
 	@inject('TransactionDao') private transactionDao!: ITransactionDao;
 	async validate(request: Request): Promise<ValidatedInput> {
 		const masterAccountNumber = this.errorCollector.collect('masterAccountNumber', () =>
-			Text.validate({ value: request.body['masterAccountNumber'], required: false })
+			Text.validate({ value: request.body['masterAccountNumber'], required: false }),
 		);
 		if (this.errorCollector.hasError()) {
 			throw new ValidationError(this.errorCollector.errors);

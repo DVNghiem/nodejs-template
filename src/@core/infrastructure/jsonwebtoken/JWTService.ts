@@ -30,11 +30,11 @@ class JWTService {
 		return token;
 	}
 	verifyAccessToken(token: string): { id: number } {
-		var decoded = jwt.verify(token, secrectAccessKey);
+		let decoded = jwt.verify(token, secrectAccessKey);
 		return decoded as any;
 	}
-	verifyRefrestToken(token: string): { id: number} {
-		var decoded = jwt.verify(token, secrectRefreshKey);
+	verifyRefrestToken(token: string): { id: number } {
+		let decoded = jwt.verify(token, secrectRefreshKey);
 		return decoded as any;
 	}
 	verifyAccessTokenByRequert(req: Request) {

@@ -4,7 +4,7 @@
  * 	- handle is the function that will be called when the request is received
  * function validate is used to validate the request
  * 	- validate is called before the handle function
- * 
+ *
  */
 
 import { injectable, inject } from 'inversify';

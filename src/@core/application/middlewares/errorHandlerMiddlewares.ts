@@ -1,7 +1,7 @@
 /**
  * This module is a middleware for handling errors
- * 
-*/
+ *
+ */
 
 import ValidationError from '@core/domain/errors/ValidationError';
 import { NextFunction, Request, Response } from 'express';

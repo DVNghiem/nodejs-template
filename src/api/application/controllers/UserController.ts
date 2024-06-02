@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response  } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import Ioc from '@api/infrastructure/inversify';
 import RegisterUser from '../handlers/user/Register';
 import logger from '@core/infrastructure/logger';

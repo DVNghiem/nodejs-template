@@ -11,7 +11,8 @@ import router from './router';
 // import '@core/infrastructure/objection-js';
 // connect mongodb
 // import '@core/infrastructure/mongoose';
-import '@core/database'
+import AppDataSource from '@core/database';
+
 // connect redis
 import '@core/infrastructure/redis';
 import logger from '@core/infrastructure/logger';
@@ -36,7 +37,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(
 	helmet({
 		contentSecurityPolicy: false,
-	})
+	}),
 );
 
 app.use(router);
@@ -45,3 +46,6 @@ app.use(router);
 app.listen(port, () => {
 	logger.info(`Express server started on ${baseURL} `);
 });
+(async () => {
+	await AppDataSource.initialize();
+})();

@@ -1,5 +1,5 @@
 /**
- * This module is a middleware for handling errors 
+ * This module is a middleware for handling errors
  * and swagger documentation
  */
 
@@ -30,17 +30,17 @@ router.get('/logs', (req, res) => {
 });
 
 const options = {
-	failOnErrors: false, 
+	failOnErrors: false,
 	definition: {
-	  openapi: '3.0.0',
-	  info: {
-		title: 'API documentation',
-		version: '1.0.0',
-	  },
+		openapi: '3.0.0',
+		info: {
+			title: 'API documentation',
+			version: '1.0.0',
+		},
 	},
 	apis: ['./src/router.ts', './src/transaction/application/routes/index.ts'],
-  };
-  
+};
+
 const openapiSpecification = swaggerJSDoc(options);
 // logger.info(openapiSpecification);
 
