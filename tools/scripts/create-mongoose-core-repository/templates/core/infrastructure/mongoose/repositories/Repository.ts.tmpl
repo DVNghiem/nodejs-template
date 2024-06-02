@@ -1,0 +1,40 @@
+import [:repository_name] from '@core/domain/entities/[:repository_name]';
+import I[:repository_name]Repository from '@core/domain/repositories/I[:repository_name]Repository';
+import { injectable } from 'inversify';
+import Repository from './Repository';
+import [:repository_name]Model, { I[:repository_name]Model } from '../models/[:repository_name]';
+import { HydratedDocument } from 'mongoose';
+import EntityID from '@core/domain/validate-objects/EntityID';
+
+@injectable()
+export default class [:repository_name]Repository extends Repository<[:repository_name], I[:repository_name]Model> implements I[:repository_name]Repository {
+	public constructor() {
+		super([:repository_name]Model);
+	}
+
+	protected convertDocumentToEntity(persist: HydratedDocument<I[:repository_name]Model>): [:repository_name] {
+		const { _id, ...props } = persist.toObject();
+
+		const entity = [:repository_name].create(
+			{
+				createdAt: props.createdAt,
+				updatedAt: props.updatedAt,
+			},
+			_id.toString()
+		);
+
+		return entity;
+	}
+
+	protected convertEntityToDocument(entity: [:repository_name]): HydratedDocument<I[:repository_name]Model> {
+		const document = {
+			_id: entity.id,
+			createdAt: entity.createdAt,
+			updatedAt: entity.updatedAt,
+		};
+
+		const persist = new [:repository_name]Model(document);
+
+		return persist;
+	}
+}

@@ -1,0 +1,20 @@
+import Entity from './Entity';
+
+export interface I[:repository_name] {
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export default class [:repository_name] extends Entity<I[:repository_name]> {
+	public static create(props: I[:repository_name], id?: string) {
+		return new [:repository_name](props, id);
+	}
+  
+	get createdAt() {
+		return this.props.createdAt;
+	}
+
+	get updatedAt() {
+		return this.props.updatedAt;
+	}
+}

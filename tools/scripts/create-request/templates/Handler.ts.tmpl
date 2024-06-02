@@ -1,0 +1,24 @@
+import { inject, injectable } from 'inversify';
+import RequestHandler from '@core/application/RequestHandler';
+import { I[:request_name] as I[:request_name]Request } from '@[:module_name]/presentation/requests[:sub_path]/[:request_name]';
+import { I[:request_name] as I[:request_name]Response } from '@[:module_name]/presentation/responses[:sub_path]/[:request_name]';
+import ValidationError from '@core/domain/errors/ValidationError';
+
+interface ValidatedInput {}
+
+@injectable()
+export default class [:request_name] extends RequestHandler<I[:request_name]Request, I[:request_name]Response> {
+	async validate(request: I[:request_name]Request): Promise<ValidatedInput> {
+		if (this._ec.hasError()) {
+			throw new ValidationError(this._ec.errors);
+		}
+
+		return {};
+	}
+
+	async handle(request: I[:request_name]Request): Promise<I[:request_name]Response | null> {
+		const input = await this.validate(request);
+
+		return null;
+	}
+}
