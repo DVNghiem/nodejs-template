@@ -5,8 +5,7 @@ import logger from '@core/infrastructure/logger';
 import { inject, injectable } from 'inversify';
 
 interface ValidatedInput {
-	username: string;
-	age: number;
+	email: string;
 }
 
 @injectable()
@@ -15,19 +14,14 @@ export default class RegisterUser extends RequestHandler {
 
 	async validate(request: any): Promise<ValidatedInput> {
 		return {
-			username: request.body.username,
-			age: request.body.age,
+			email: request.query.email,
 		};
 	}
 
 	async handle(request: any) {
 		const input = await this.validate(request);
-		const entity = User.create({
-			username: input.username,
-			age: input.age,
-		});
-		logger.info(entity);
-		const result = await this.userRepository.add(entity);
-		return result;
+		const entity = await this.userRepository.findByEmail(input.email);
+		logger.info(`User found: ${entity}`);
+		return entity;
 	}
 }
