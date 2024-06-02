@@ -10,8 +10,10 @@
 		"local": "nodemon",
 		"develop": "SET NODE_ENV=develop&&nodemon",
 		"deploy": "npm run start",
-		"lint:fix": "eslint ./src/**/*.ts --fix",
+		"lint": "eslint ./src/**/*{.js,.ts} --report-unused-disable-directives --max-warnings 0",
+		"lint:fix": "eslint ./src/**/*{.js,.ts} --fix",
 		"lint:staged": "lint-staged",
+		"prettier": "prettier --write . --config ./.prettierrc --ignore-path ./.prettierignore",
 		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
 		"migrate:generate": "npm run typeorm -- --dataSource=src/@core/database/index.ts migration:generate src/@core/database/migrations/auto-generate",
 		"migrate:run": "npm run typeorm -- --dataSource=src/@core/database/index.ts migration:run",
@@ -20,7 +22,9 @@
 		"migrate:export": "npm run typeorm -- --dataSource=src/@core/database/index.ts migration:dry-run",
 		"seed:run": "ts-node -r tsconfig-paths/register ./tools/scripts/seed.ts",
 		"core:repository:create": "node ./tools/scripts/create-mongoose-core-repository/index.js --module @core --repository ",
-		"api:repository:create": "node ./tools/scripts/create-mongoose-modules-extends-repository/index.js --module api --repository "
+		"api:repository:create": "node ./tools/scripts/create-mongoose-modules-extends-repository/index.js --module api --repository ",
+		"prepare": "husky",
+		"commitlint": "commitlint --edit"
 	},
 	"repository": {
 		"type": "git",
@@ -104,6 +108,8 @@
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^19.3.0",
+		"@commitlint/config-conventional": "^19.2.2",
 		"@eslint/js": "^9.4.0",
 		"@faker-js/faker": "^8.4.1",
 		"@types/bcrypt": "^5.0.2",
@@ -127,7 +133,9 @@
 		"eslint": "^8.57.0",
 		"eslint-plugin-prettier": "^5.1.3",
 		"fs-extra": "^11.2.0",
+		"husky": "^9.0.11",
 		"jasmine": "^5.1.0",
+		"lint-staged": "^15.2.5",
 		"nodemon": "^3.1.0",
 		"supertest": "^4.0.2",
 		"ts-node": "^10.9.2",

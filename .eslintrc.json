@@ -5,10 +5,7 @@
 		"sourceType": "module",
 		"allowImportExportEverywhere": true
 	},
-	"extends": [
-		"plugin:@typescript-eslint/recommended",
-		"plugin:prettier/recommended"
-	],
+	"extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
 	"rules": {
 		"prettier/prettier": ["error"],
 		"prefer-const": "off",
