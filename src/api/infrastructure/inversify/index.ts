@@ -5,8 +5,7 @@ import UserRepository from '../repositories/UserRepository';
 import IUserRepository from '@api/domain/repositories/IUserRepository';
 
 const container = new Container({
-	autoBindInjectable: true,
-	skipBaseClassChecks: true,
+	autobind: true,
 });
 
 // Utilities

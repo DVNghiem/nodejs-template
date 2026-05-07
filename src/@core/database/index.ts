@@ -8,7 +8,7 @@ import { DataSource } from 'typeorm';
 logger.info('Initializing Data Source...');
 
 const AppDataSource = new DataSource({
-	type: (process.env.DB_TYPE as 'postgres' | 'mysql') || 'postgres',
+	type: 'postgres',
 	host: process.env.DB_HOST || 'localhost',
 	port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
 	username: process.env.DB_USER,

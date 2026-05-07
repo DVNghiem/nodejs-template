@@ -16,7 +16,7 @@ export default class ErrorCollector {
 		return this._errors;
 	}
 
-	public collect(tag: string, method: Function): any {
+	public collect<T>(tag: string, method: () => T): T | undefined {
 		try {
 			return method();
 		} catch (error: any) {
@@ -24,7 +24,7 @@ export default class ErrorCollector {
 		}
 	}
 
-	public async collectAsync(tag: string, method: Function): Promise<any> {
+	public async collectAsync<T>(tag: string, method: () => Promise<T>): Promise<T | undefined> {
 		try {
 			return await method();
 		} catch (error: any) {

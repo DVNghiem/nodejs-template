@@ -1,6 +1,6 @@
 import AuthorizationError from '@core/domain/errors/AuthorizationError';
 import { Request } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 const secrectAccessKey = process.env.JWT_SECRECT_ACCESS_TOKEN!;
 const secrectRefreshKey = process.env.JWT_SECRECT_REFRESH_TOKEN!;
 
@@ -13,7 +13,7 @@ class JWTService {
 	}
 	signAccessToken(id: number) {
 		const payload = { id };
-		const options = {
+		const options: SignOptions = {
 			expiresIn: '1h',
 		};
 		const token = jwt.sign(payload, secrectAccessKey, options);
@@ -22,7 +22,7 @@ class JWTService {
 	}
 	signRefreshToken(id: number) {
 		const payload = { id };
-		const options = {
+		const options: SignOptions = {
 			expiresIn: '1y',
 		};
 		const token = jwt.sign(payload, secrectRefreshKey, options);

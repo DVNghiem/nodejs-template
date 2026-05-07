@@ -1,4 +1,3 @@
-import 'express-async-errors';
 // parse variable environment *** requie first
 import '@env/index.js';
 import express from 'express';

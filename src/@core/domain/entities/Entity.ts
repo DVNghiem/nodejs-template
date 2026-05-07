@@ -1,12 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from 'typeorm';
+import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export default abstract class IEntity {
 	@PrimaryGeneratedColumn()
-	id: number | undefined;
+	id?: number;
 
-	@Column()
-	createdAt: Date = new Date();
+	@CreateDateColumn({ type: 'timestamp' })
+	createdAt!: Date;
 
-	@Column()
-	updatedAt: Date = new Date();
+	@UpdateDateColumn({ type: 'timestamp' })
+	updatedAt!: Date;
+
+	@DeleteDateColumn({ type: 'timestamp', nullable: true })
+	deletedAt?: Date | null;
 }
